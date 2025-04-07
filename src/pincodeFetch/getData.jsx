@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 function GetData({pincode}){
     const [isData, setData] = useState("");
     const [postOffice, setPostOffice] = useState([]);
+    const [isFilter, setFilter] = useState("");
 
     useEffect(() => {
         fetch(`https://api.postalpincode.in/pincode/${pincode}`)
@@ -22,11 +23,12 @@ function GetData({pincode}){
         <>
             <h3 style={{margin:"10px"}}>Pincode : {pincode}</h3>
             <h4 style={{margin:"10px"}}>Message : {isData} </h4>
+            
             <form>
-                <input type="text" id="filter" placeholder="Filter"/>
+                <input type="text" id="filter" placeholder="Filter" onChange={(e) => setFilter(e.target.value)}/>
             </form>
 
-            <ul className="display">
+            {!isFilter ? (<ul className="display">
             {postOffice.map((fetchData, index) => (
                 <li className="box" key={index}>
                      <p>Name : {fetchData.Name}</p>
@@ -36,8 +38,22 @@ function GetData({pincode}){
                      <p>Division : {fetchData.Division}</p>
                 </li>
             ))}
+            </ul> ) : (
+                
+            <ul className="display">
+            {postOffice.filter((fetchData) => 
+                 fetchData.Name.toLowerCase().includes(isFilter.toLowerCase()))
+                 .map((fetchData, index) => (
+                <li className="box" key={index}>
+                     <p>Name : {fetchData.Name}</p>
+                     <p>Branch Type : {fetchData.BranchType}</p>
+                     <p>Delivery Status : {fetchData.DeliveryStatus}</p>
+                     <p>District : {fetchData.District}</p>
+                     <p>Division : {fetchData.Division}</p>
+                </li>
+                ))}
             </ul>
-
+        )}
         </>
     )
 }
