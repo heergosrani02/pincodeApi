@@ -3,14 +3,14 @@ import GetData from "./getData.jsx"
 
 function EnterPincode(){
     const [pincode, setPincode] = useState("");
-    const [com, setCom] = useState(false);
+    const [component, setComponent] = useState(false);
 
     return(
         <>
-            {!com ? (<form>
+            {!component ? (<form>
                 <label htmlFor="pincode" className="label">Enter Pincode</label> <br />
                 <input type="text" id="pincode" value={pincode} placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} /> <br />
-                <button type="submit" onClick={(e) => {e.preventDefault(); setCom(true);}}>Lookup</button>
+                <button type="submit" onClick={(e) => {e.preventDefault(); setComponent(true);}}>Lookup</button>
             </form>) : (<GetData pincode={pincode}/>)}
         </>
     )
